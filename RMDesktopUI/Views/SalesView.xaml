@@ -34,7 +34,7 @@
         <!--Column 0-->
         <TextBlock Text="Items" Grid.Row="1" Grid.Column="0"/>
         <ListBox x:Name="Products" Grid.Row="2" Grid.Column="0" 
-                 MinWidth="150" MinHeight="200">
+                 MinWidth="150" MinHeight="200" SelectedItem="{Binding SelectedProduct}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding ProductName}"/>
@@ -57,7 +57,13 @@
         <!--Column 2-->
         <TextBlock Text="Cart" Grid.Row="1" Grid.Column="2"/>
         <ListBox x:Name="Cart" Grid.Row="2" Grid.Column="2" 
-                 MinWidth="150" MinHeight="200"/>
+                 MinWidth="150" MinHeight="200">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding DisplayText}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <!--Money-->
         <DockPanel Grid.Row="3" Grid.Column="2">
