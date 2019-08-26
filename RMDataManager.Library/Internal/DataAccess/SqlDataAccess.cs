@@ -49,6 +49,8 @@ namespace RMDataManager.Library.Internal.DataAccess
             _connection.Open();
 
             _transaction = _connection.BeginTransaction();
+
+            _isClosed = false;
         }
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
@@ -65,23 +67,38 @@ namespace RMDataManager.Library.Internal.DataAccess
             return rows;
         }
 
+        private bool _isClosed = false;
+
         public void CommitTransaction()
         {
             _transaction?.Commit();
             _connection?.Close();
-            _transaction = null;
-            _connection = null;
+            _isClosed = true;
         }
 
         public void RollbackTransaction()
         {
             _transaction?.Rollback();
             _connection?.Close();
+            _isClosed = true;
         }
 
         public void Dispose()
         {
-            CommitTransaction();
+            if (_isClosed == false)
+            {
+                try
+                {
+                    CommitTransaction();
+                }
+                catch
+                {
+
+                }
+            }
+
+            _transaction = null;
+            _connection = null;
         }
     }
 }
